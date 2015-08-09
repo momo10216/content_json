@@ -1,0 +1,51 @@
+<html>
+<head><title>Test JSON Plugin JS</title></head>
+<body>
+<script src="http://code.jquery.com/jquery-1.5.js"></script>
+<script src="../js/json.js"></script>
+	<h1>Scope all</h1>
+	<table id="id1">
+	</table>
+	<script language="javascript" type="text/javascript">
+		displayJsonAsTable('https://api.github.com/repos/momo10216/clubmgnt/releases','id1',['tag_name','name','zipball_url'],['Version','Description','ZIP'],'all','tag_name','desc');
+	</script>
+	<h1>Scope latest</h1>
+	<table id="id2">
+	</table>
+	<script language="javascript" type="text/javascript">
+		displayJsonAsTable('https://api.github.com/repos/momo10216/clubmgnt/releases','id2',['tag_name','name','zipball_url'],['Version','Description','ZIP'],'latest','tag_name','desc');
+	</script>
+	<h1>Scope oldest</h1>
+	<table id="id3">
+	</table>
+	<script language="javascript" type="text/javascript">
+		displayJsonAsTable('https://api.github.com/repos/momo10216/clubmgnt/releases','id3',['tag_name','name','zipball_url'],['Version','Description','ZIP'],'oldest','tag_name','desc');
+	</script>
+	<h1>Scope 0</h1>
+	<table id="id4">
+	</table>
+	<script language="javascript" type="text/javascript">
+		displayJsonAsTable('https://api.github.com/repos/momo10216/clubmgnt/releases','id4',['tag_name','name','zipball_url'],['Version','Description','ZIP'],'0','tag_name','desc');
+	</script>
+	<h1>Scope 1</h1>
+	<table id="id5">
+	</table>
+	<script language="javascript" type="text/javascript">
+		displayJsonAsTable('https://api.github.com/repos/momo10216/clubmgnt/releases','id5',['tag_name','name','zipball_url'],['Version','Description','ZIP'],'1','tag_name','desc');
+	</script>
+	<h1>Scope 1-</h1>
+	<table id="id6">
+	</table>
+	<script language="javascript" type="text/javascript">
+		displayJsonAsTable('https://api.github.com/repos/momo10216/clubmgnt/releases','id6',['tag_name','name','zipball_url'],['Version','Description','ZIP'],'1-','tag_name','desc');
+	</script>
+	<h1>Scope oldest-latest</h1>
+	<table id="id7">
+	</table>
+	<script language="javascript" type="text/javascript">
+		displayJsonAsTable('https://api.github.com/repos/momo10216/clubmgnt/releases','id7',['tag_name','name','zipball_url'],['Version','Description','ZIP'],'oldest-latest','tag_name','desc');
+	</script>
+</body>
+</html>
+
+

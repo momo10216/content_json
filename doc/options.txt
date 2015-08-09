@@ -1,0 +1,7 @@
+fields=[tag_name,published_at,name]
+labels=[Version,Date,Description]
+scope=all,latest,oldest
+view=table,records
+url=URL
+sortField=
+sortDirection=[asc,desc]

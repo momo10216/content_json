@@ -1,0 +1,12 @@
+Examples:
+
+Github
+======
+Show all releases = {json url=[https://api.github.com/repos/momo10216/clubmgnt/releases] scope=[all] view=[table] fields=[tag_name,published_at,name,zipball_url] labels=[Version,Date,Description,ZIP] sortField=[tag_name] sortDirection=[desc]}
+Show latest release = {json url=[https://api.github.com/repos/momo10216/clubmgnt/releases] scope=[latest] view=[table] fields=[tag_name,published_at,name,zipball_url] labels=[Version,Date,Description,ZIP] sortField=[tag_name] sortDirection=[desc]}
+Show all issues = {json url=[https://api.github.com/repos/momo10216/clubmgnt/issues] scope=[all] view=[table] fields=[number,title,body] sortField=[number] sortDirection=[asc]}
+Show fields = {json url=[https://api.github.com/users/momo10216] scope=[latest] view=[fields]}On Github I'm registred as {jsonfield name=[login]} as {jsonfield name=[name]} since {jsonfield name=[created_at]}. {jsonfield name=[html_url]}
+
+JSON-Test
+=========
+Display ip address = {json url=[http://ip.jsontest.com/] scope=[latest] view=[fields]}Your IP address is: {jsonfield name=[ip]}
