@@ -82,7 +82,7 @@ class plgContentplg_nok_json extends JPlugin {
 	}
 
 	protected function json_createHtml($id, $params) {
-		$elementId = "json_".$id;
+		$elementId = "json_".microtime();
 		$html = "\n";
 		$fieldArray = "['".str_replace(",","','",$params['fields'])."']";
 		if (empty($params['labels'])) {
