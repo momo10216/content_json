@@ -86,16 +86,16 @@ function sortJsonArrayByProperty(objArray, prop, direction) {
 	return objArray;
 }
 
-function displayRecordsAsTable(records, elementId, fields, labels, scope, sortField, sortDirection) {
+function displayRecordsAsTable(records, elementId, fields, labels, scope, sortField, sortDirection, recordsvar) {
+	if (recordsvar.length>0 && records.length>0) {
+		records = records[0][recordsvar];
+	}
+
 	var range = calculateRange(records, scope);
 	var fieldAmount = fields.length;
 	var labelAmount = labels.length;
 	var body = document.body;
 	var tbl = document.getElementById(elementId);
-
-	if (sortField.length>0) { 
-		records = sortJsonArrayByProperty(records,sortField,sortDirection)
-	}
 
 	// display labels
 	var tr = tbl.insertRow(tbl.rows.length);
@@ -118,7 +118,11 @@ function displayRecordsAsTable(records, elementId, fields, labels, scope, sortFi
 	}
 }
 
-function displayRecordsAsRecords(records, elementId, fields, labels, scope, sortField, sortDirection) {
+function displayRecordsAsRecords(records, elementId, fields, labels, scope, sortField, sortDirection, recordsvar) {
+	if (recordsvar.length>0 && records.length>0) {
+		records = records[0][recordsvar];
+	}
+
 	var range = calculateRange(records, scope);
 	var fieldAmount = fields.length;
 	var labelAmount = labels.length;
@@ -144,18 +148,18 @@ function displayRecordsAsRecords(records, elementId, fields, labels, scope, sort
 	}
 }
 
-function displayJsonAsTable(url, elementId, fields, labels, scope, sortField, sortDirection) {
+function displayJsonAsTable(url, elementId, fields, labels, scope, sortField, sortDirection, recordsvar) {
 	jQuery.getJSON(url).done(
 		function (records) {
-			displayRecordsAsTable(records, elementId, fields, labels, scope, sortField, sortDirection);
+			displayRecordsAsTable(records, elementId, fields, labels, scope, sortField, sortDirection, recordsvar);
 		}
 	);    
 }
 
-function displayJsonAsRecords(url, elementId, fields, labels, scope, sortField, sortDirection) {
+function displayJsonAsRecords(url, elementId, fields, labels, scope, sortField, sortDirection, recordsvar) {
 	jQuery.getJSON(url).done(
 		function (records) {
-			displayRecordsAsRecords(records, elementId, fields, labels, scope, sortField, sortDirection);
+			displayRecordsAsRecords(records, elementId, fields, labels, scope, sortField, sortDirection, recordsvar);
 		}
 	);    
 }

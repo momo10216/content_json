@@ -92,12 +92,12 @@ class plgContentplg_nok_json extends JPlugin {
 		}
 		switch ($params['view']) {
 			case "table":
-				$html .= '<table id="'.$elementId.'" class="json">'."\n".'</table>'."\n";
-				$html .= $this->json_createJS("displayJsonAsTable('".$params['url']."','".$elementId."',".$fieldArray.",".$labelArray.",'".$params['scope']."','".$params['sortField']."','".$params['sortDirection']."');");
+				$html .= '<table id="'.$elementId.'" class="table json">'."\n".'</table>'."\n";
+				$html .= $this->json_createJS("displayJsonAsTable('".$params['url']."','".$elementId."',".$fieldArray.",".$labelArray.",'".$params['scope']."','".$params['sortField']."','".$params['sortDirection']."','".$params['recordsVar']."');");
 				break;
 			case "records":
-				$html .= '<table id="'.$elementId.'" class="json">'."\n".'</table>'."\n";
-				$html .= $this->json_createJS("displayJsonAsRecords('".$params['url']."','".$elementId."',".$fieldArray.",".$labelArray.",'".$params['scope']."','".$params['sortField']."','".$params['sortDirection']."');");
+				$html .= '<table id="'.$elementId.'" class="table json">'."\n".'</table>'."\n";
+				$html .= $this->json_createJS("displayJsonAsRecords('".$params['url']."','".$elementId."',".$fieldArray.",".$labelArray.",'".$params['scope']."','".$params['sortField']."','".$params['sortDirection']."','".$params['recordsVar']."');");
 				break;
 			case "fields":
 				$html .= $this->json_createJS("displayJsonAsFields('".$params['url']."','".$params['scope']."');");
