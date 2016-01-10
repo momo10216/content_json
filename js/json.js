@@ -97,6 +97,10 @@ function displayRecordsAsTable(records, elementId, fields, labels, scope, sortFi
 	var body = document.body;
 	var tbl = document.getElementById(elementId);
 
+	if (sortField.length>0) { 
+		records = sortJsonArrayByProperty(records,sortField,sortDirection)
+	}
+
 	// display labels
 	var tr = tbl.insertRow(tbl.rows.length);
 	for(var i = 0; i < labelAmount; i++) {
