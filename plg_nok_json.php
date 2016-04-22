@@ -84,32 +84,39 @@ class plgContentplg_nok_json extends JPlugin {
 	protected function json_createHtml($id, $params) {
 		$elementId = "json_".microtime();
 		$html = "\n";
-		$fieldArray = "['".str_replace(",","','",$params['fields'])."']";
+		$fieldArray = "['".str_replace(",","','",$this->hashget($params,'fields'))."']";
 		if (empty($params['labels'])) {
 			$labelArray = $fieldArray;
 		} else {
-			$labelArray = "['".str_replace(",","','",$params['labels'])."']";
+			$labelArray = "['".str_replace(",","','",$this->hashget($params,'labels'))."']";
 		}
 		switch ($params['view']) {
 			case "table":
 				$html .= '<table id="'.$elementId.'" class="table json">'."\n".'</table>'."\n";
-				$html .= $this->json_createJS("displayJsonAsTable('".$params['url']."','".$elementId."',".$fieldArray.",".$labelArray.",'".$params['scope']."','".$params['sortField']."','".$params['sortDirection']."','".$params['recordsVar']."');");
+				$html .= $this->json_createJS("displayJsonAsTable('".$this->hashget($params,'url')."','".$elementId."',".$fieldArray.",".$labelArray.",'".$this->hashget($params,'scope')."','".$this->hashget($params,'sortField')."','".$this->hashget($params,'sortDirection')."','".$this->hashget($params,'recordsVar')."');");
 				break;
 			case "records":
 				$html .= '<table id="'.$elementId.'" class="table json">'."\n".'</table>'."\n";
-				$html .= $this->json_createJS("displayJsonAsRecords('".$params['url']."','".$elementId."',".$fieldArray.",".$labelArray.",'".$params['scope']."','".$params['sortField']."','".$params['sortDirection']."','".$params['recordsVar']."');");
+				$html .= $this->json_createJS("displayJsonAsRecords('".$this->hashget($params,'url')."','".$elementId."',".$fieldArray.",".$labelArray.",'".$this->hashget($params,'scope')."','".$this->hashget($params,'sortField')."','".$this->hashget($params,'sortDirection')."','".$this->hashget($params,'recordsVar')."');");
 				break;
 			case "fields":
-				$html .= $this->json_createJS("displayJsonAsFields('".$params['url']."','".$params['scope']."');");
+				$html .= $this->json_createJS("displayJsonAsFields('".$this->hashget($params,'url')."','".$this->hashget($params,'scope')."');");
 				break;
 			default:
-				$html .= $this->json_generateError('Option view ['.$params['view'].'] unknown.');
+				$html .= $this->json_generateError('Option view ['.$this->hashget($params,'view').'] unknown.');
 				break;
 		}
 		return $html;
 	}
 
 	protected function json_createFieldHtml($id, $params) {
-		return "<span id=\"json_field_".$params['name']."\"></span>";
+		return "<span id=\"json_field_".$this->hashget($params,'name')."\"></span>";
+	}
+
+	protected function hashget($hashmap, $key) {
+		if (isset($hashmap[$key])) {
+			return $hashmap[$key];
+		}
+		return "";
 	}
 }
