@@ -85,12 +85,13 @@ class plgContentplg_nok_json extends JPlugin {
 		$elementId = "json_".microtime();
 		$html = "\n";
 		$fieldArray = "['".str_replace(",","','",$this->hashget($params,'fields'))."']";
-		if (empty($params['labels'])) {
+		$labels = $this->hashget($params,'labels');
+		if (empty($labels)) {
 			$labelArray = $fieldArray;
 		} else {
-			$labelArray = "['".str_replace(",","','",$this->hashget($params,'labels'))."']";
+			$labelArray = "['".str_replace(",","','",$labels)."']";
 		}
-		switch ($params['view']) {
+		switch ($this->hashget($params,'view')) {
 			case "table":
 				$html .= '<table id="'.$elementId.'" class="table json">'."\n".'</table>'."\n";
 				$html .= $this->json_createJS("displayJsonAsTable('".$this->hashget($params,'url')."','".$elementId."',".$fieldArray.",".$labelArray.",'".$this->hashget($params,'scope')."','".$this->hashget($params,'sortField')."','".$this->hashget($params,'sortDirection')."','".$this->hashget($params,'recordsVar')."');");
