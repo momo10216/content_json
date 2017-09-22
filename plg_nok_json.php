@@ -10,6 +10,8 @@ jimport('joomla.plugin.plugin');
 
 class plgContentplg_nok_json extends JPlugin {
 	private $debug = array();
+	private $fieldExecute = 'client';
+	private $fieldvalues = array();
 
 	public function onContentPrepare($context, &$article, &$params, $limitstart) {
 		$app = JFactory::getApplication();
@@ -44,13 +46,12 @@ class plgContentplg_nok_json extends JPlugin {
 		}
 		if (strpos($article->text,'{jsondebug}') !== false) {
 			$found = true;
-			$article->text = str_replace('{jsondebug}', '<h1>DEBUG-INFORMATION</h1>', $article->text);
+			$article->text = str_replace('{jsondebug}', '<h1>DEBUG-INFORMATION</h1>'.implode('<br/>',$this->debug), $article->text);
 		}
 		return $found;
 	}
 
 	protected function json_getParams($globalParams, $entryParamsText) {
-
 		// Initialize with the global paramteres
 		//$entryParamsList['width'] = $globalParams->get('width');
 
@@ -140,6 +141,8 @@ class plgContentplg_nok_json extends JPlugin {
 				$html .= $this->json_createHtmlServerRecords($elementId, $labels, $fields, $records);
 				break;
 			case "fields":
+				$this->fieldvalues = $records;
+				$this->fieldExecute = 'server';
 				break;
 			default:
 				$html .= $this->json_generateError('Option view ['.$this->hashget($params,'view').'] unknown.');
@@ -179,9 +182,31 @@ class plgContentplg_nok_json extends JPlugin {
 	}
 
 	protected function json_createFieldHtml($id, $params) {
+		if ($this->fieldExecute == 'client') {
+			return $this->json_createFieldHtmlClient($id, $params);
+		} else {
+			return $this->json_createFieldHtmlServer($id, $params);
+		}
+	}
+
+	protected function json_createFieldHtmlClient($id, $params) {
 		return "<span id=\"json_field_".$this->hashget($params,'name')."\"></span>";
 	}
 
+	protected function json_createFieldHtmlServer($id, $params) {
+		return '<span id="json_field_'.$this->hashget($params,'name').'">'.$this->formatServerValue($params,'name').'</span>';
+	}
+
+	protected function formatServerValue($params,$key) {
+		$value = '';
+		if (isset($this->fieldvalues[$this->hashget($params,$key)])) {
+			$value = $this->fieldvalues[$this->hashget($params,$key)];
+			if ((substr($value,0,7) == 'http://') || (substr($value,0,8) == 'https://')) {
+				$value = '<a href="'.$value.'">Link</a>';
+			}
+		}
+		return $value;
+	}
 	protected function getUrl($hashmap) {
 		$url = $this->hashget($hashmap, 'url');
 		$url = str_replace('&amp;', '&', $url);
