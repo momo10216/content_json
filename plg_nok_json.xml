@@ -7,7 +7,7 @@
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>momo_102@bluemail.ch</authorEmail>
 	<authorUrl>http://kuem.in/</authorUrl>
-	<version>1.1.5</version>
+	<version>1.2</version>
 	<description>PLG_NOK_JSON_APP_DESC</description>
 	<files>
 		<filename plugin="plg_nok_json">plg_nok_json.php</filename>

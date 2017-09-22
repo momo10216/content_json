@@ -79,15 +79,15 @@ class plgContentplg_nok_json extends JPlugin {
 	}
 
 	protected function json_createHtml($id, $params) {
-//		if ($this->executeOnClient($params) === true) {
+		if ($this->executeOnClient($params) === true) {
 			return $this->json_createHtmlClient($id, $params);
-//		} else {
-//			return $this->json_createHtmlServer($id, $params);
-//		}
+		} else {
+			return $this->json_createHtmlServer($id, $params);
+		}
 	}
 
 	protected function json_createHtmlClient($id, $params) {
-//		if (isset($params['execute']) { unset($params['execute']); }
+		if (isset($params['execute'])) { unset($params['execute']); }
 		$elementId = "json_".$id;
 		$html = "\n";
 		$fieldArray = "['".str_replace(",","','",$this->hashget($params,'fields'))."']";
@@ -104,10 +104,10 @@ class plgContentplg_nok_json extends JPlugin {
 				break;
 			case "records":
 				$html .= '<table id="'.$elementId.'" class="table json">'."\n".'</table>'."\n";
-				$html .= $this->json_createJS("displayJsonAsRecords('".$this->getUrl($params,'url')."','".$elementId."',".$fieldArray.",".$labelArray.",'".$this->hashget($params,'scope')."','".$this->hashget($params,'sortField')."','".$this->hashget($params,'sortDirection')."','".$this->hashget($params,'recordsVar')."');");
+				$html .= $this->json_createJS("displayJsonAsRecords('".$this->getUrl($params)."','".$elementId."',".$fieldArray.",".$labelArray.",'".$this->hashget($params,'scope')."','".$this->hashget($params,'sortField')."','".$this->hashget($params,'sortDirection')."','".$this->hashget($params,'recordsVar')."');");
 				break;
 			case "fields":
-				$html .= $this->json_createJS("displayJsonAsFields('".$this->getUrl($params,'url')."','".$this->hashget($params,'scope')."');");
+				$html .= $this->json_createJS("displayJsonAsFields('".$this->getUrl($params)."','".$this->hashget($params,'scope')."');");
 				break;
 			default:
 				$html .= $this->json_generateError('Option view ['.$this->hashget($params,'view').'] unknown.');
@@ -116,13 +116,22 @@ class plgContentplg_nok_json extends JPlugin {
 		return $html;
 	}
 
-/*
+
 	protected function json_createHtmlServer($id, $params) {
-		$elementId = "json_".microtime();
+		$elementId = "json_".$id;
 		$html = "\n";
 		$fields = explode(',',$this->hashget($params,'fields'));
 		$labels = explode(',',$this->hashget($params,'labels'));
-		$records = json_decode(file_get_contents($params['url']), true);
+		$records = json_decode(file_get_contents($this->getUrl($params)), true);
+		if (!empty($this->hashget($params,'recordsVar'))) {
+			if (isset($records[$this->hashget($params,'recordsVar')])) {
+				$records = $records[$this->hashget($params,'recordsVar')];
+			} else {
+				if (isset($records[0]) && isset($records[0][$this->hashget($params,'recordsVar')])) {
+					$records = $records[0][$this->hashget($params,'recordsVar')];
+				}
+			}
+		}
 		switch ($this->hashget($params,'view')) {
 			case "table":
 				$html .= $this->json_createHtmlServerTable($elementId, $labels, $fields, $records);
@@ -147,29 +156,27 @@ class plgContentplg_nok_json extends JPlugin {
 		foreach($records as $record) {
 			$html .= '<tr>';
 			foreach($fields as $field) {
-				$html .= '<td>'.$record[$field].'</td>';
+				$html .= '<td>'.(isset($record[$field]) ? $record[$field] : '').'</td>';
 			}
 			$html .= '</tr>';
 		}
 		$html .= '</table>'."\n";
+		return $html;
 	}
 
 	protected function json_createHtmlServerRecords($elementId, $labels, $fields, $records) {
 		$html = '<table id="'.$elementId.'" class="table json">'."\n";
-		if(count($labels) > 0) {
-			$html .= '<tr><th>'.implode('</th><th>',$labels).'</th></tr>';
-		}
 		foreach($fields as $key => $field) {
 			$html .= '<tr>';
-			$html .= '<th>'.$labels[$key].'</th>';
+			$html .= '<th>'.(isset($labels[$key]) ? $labels[$key] : '').'</th>';
 			foreach($records as $record) {
-				$html .= '<td>'.$record[$key].'</td>';
+				$html .= '<td>'.(isset($record[$field]) ? $record[$field] : '').'</td>';
 			}
 			$html .= '</tr>';
 		}
 		$html .= '</table>'."\n";
+		return $html;
 	}
-*/
 
 	protected function json_createFieldHtml($id, $params) {
 		return "<span id=\"json_field_".$this->hashget($params,'name')."\"></span>";
