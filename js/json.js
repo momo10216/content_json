@@ -87,8 +87,15 @@ function sortJsonArrayByProperty(objArray, prop, direction) {
 }
 
 function displayRecordsAsTable(records, elementId, fields, labels, scope, sortField, sortDirection, recordsvar) {
-	if (recordsvar.length>0 && records.length>0) {
-		records = records[0][recordsvar];
+	if (recordsvar.length>0) {
+		if (records.length>0) {
+			newRecords = records[0][recordsvar];
+		} else {
+			newRecords = records[recordsvar];
+		}
+		if (newRecords != null) {
+			records = newRecords;
+		}
 	}
 
 	var range = calculateRange(records, scope);
@@ -98,7 +105,7 @@ function displayRecordsAsTable(records, elementId, fields, labels, scope, sortFi
 	var tbl = document.getElementById(elementId);
 
 	if (sortField.length>0) { 
-		records = sortJsonArrayByProperty(records,sortField,sortDirection)
+		records = sortJsonArrayByProperty(records,sortField,sortDirection);
 	}
 
 	// display labels
@@ -123,8 +130,15 @@ function displayRecordsAsTable(records, elementId, fields, labels, scope, sortFi
 }
 
 function displayRecordsAsRecords(records, elementId, fields, labels, scope, sortField, sortDirection, recordsvar) {
-	if (recordsvar.length>0 && records.length>0) {
-		records = records[0][recordsvar];
+	if (recordsvar.length>0) {
+		if (records.length>0) {
+			newRecords = records[0][recordsvar];
+		} else {
+			newRecords = records[recordsvar];
+		}
+		if (newRecords != null) {
+			records = newRecords;
+		}
 	}
 
 	var range = calculateRange(records, scope);
