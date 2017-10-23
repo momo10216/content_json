@@ -123,7 +123,7 @@ class plgContentplg_nok_json extends JPlugin {
 		$html = "\n";
 		$fields = explode(',',$this->hashget($params,'fields'));
 		$labels = explode(',',$this->hashget($params,'labels'));
-		$records = json_decode(file_get_contents($this->getUrl($params)), true);
+		$records = json_decode($this->getData($params), true);
 		if (!empty($this->hashget($params,'recordsVar'))) {
 			if (isset($records[$this->hashget($params,'recordsVar')])) {
 				$records = $records[$this->hashget($params,'recordsVar')];
@@ -207,10 +207,36 @@ class plgContentplg_nok_json extends JPlugin {
 		}
 		return $value;
 	}
+
 	protected function getUrl($hashmap) {
 		$url = $this->hashget($hashmap, 'url');
 		$url = str_replace('&amp;', '&', $url);
 		return $url;
+	}
+
+	protected function getCachingTime($hashmap) {
+		if (isset($hashmap['caching'])) {
+			if ($hashmap['caching'] == 'no') { return '0'; }
+			return $hashmap['caching'];
+		}
+		return '0';
+	}
+
+	protected function getData($hashmap) {
+		$url = $this->getUrl($hashmap);
+		$cachingTime = intval($this->getCachingTime($hashmap));
+		if ($cachingTime > 0) {
+			$cache = JFactory::getCache('JsonCache', '');
+			$cache->setCaching(true);
+			$cache->setLifeTime($cachingTime);
+			$cached_data = $cache->get($url);
+			if (empty($cached_data)) {
+				$cached_data = file_get_contents($url);
+				$cache->store($cached_data, $url);
+			}
+			return $cached_data;
+		}
+		return file_get_contents($url);
 	}
 
 	protected function hashget($hashmap, $key) {
