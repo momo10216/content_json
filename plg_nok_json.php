@@ -1,10 +1,16 @@
 <?php
 /**
-* @Copyright Copyright (C) 2017 Norbert Kuemin <momo_102@bluemail.ch>
-* @license GNU/GPL http://www.gnu.org/copyleft/gpl.html
-**/
+* @version	$Id$
+* @package	Joomla
+* @subpackage	Content JSON plugin
+* @copyright	Copyright (c) 2017 Norbert Kuemin. All rights reserved.
+* @license	http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE
+* @author	Norbert Kuemin
+* @authorEmail	momo_102@bluemail.ch
+*/
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
 
@@ -251,3 +257,4 @@ class plgContentplg_nok_json extends JPlugin {
 		return false;
 	}
 }
+?>

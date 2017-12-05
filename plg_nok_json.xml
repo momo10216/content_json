@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" version="3.0" method="upgrade" group="content">
-	<name>PLG_NOK_JSON_APP_NAME</name>
+	<name>PLG_NOK_JSON</name>
 	<author>Norbert Kuemin</author>
 	<creationDate>April 2016</creationDate>
 	<copyright>(C) 2016 Norbert Kuemin. All rights reserved.</copyright>
@@ -22,6 +22,6 @@
 	</languages>
 	<config />
 	<updateservers>
-		<server type="extension" priority="2" name="JSON plugin Updates">http://kuem.in/joomlaupdate/plg_nok_json.xml</server>
+		<server type="extension" priority="2" name="PLG_NOK_JSON_APP_UPDATE">http://kuem.in/joomlaupdate/plg_nok_json.xml</server>
 	</updateservers>
 </extension>
