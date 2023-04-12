@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="content" version="4.0" method="upgrade">
+	<name>PLG_NOK_JSON</name>
+	<author>Norbert Kuemin</author>
+	<creationDate>April 2016</creationDate>
+	<copyright>(C) 2023 Norbert Kuemin. All rights reserved.</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>momo_102@bluemail.ch</authorEmail>
+	<authorUrl>http://kuem.in/</authorUrl>
+	<version>2.0</version>
+	<description>PLG_NOK_JSON_APP_DESC</description>
+	<files>
+		<filename plugin="nokjson">nokjson.php</filename>
+		<folder>js</folder>
+	</files>
+	<languages folder="language">
+		<language tag="de-DE">de-DE.plg_content_nokjson.ini</language>
+		<language tag="de-DE">de-DE.plg_content_nokjson.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_content_nokjson.ini</language>
+		<language tag="en-GB">en-GB.plg_content_nokjson.sys.ini</language>
+	</languages>
+	<config />
+	<updateservers>
+		<server type="extension" priority="2" name="PLG_NOK_JSON_APP_UPDATE">http://kuem.in/joomlaupdate/plg_content_nokjson.xml</server>
+	</updateservers>
+</extension>

@@ -10,39 +10,36 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
+use Joomla\CMS\Plugin\CMSPlugin;
 
-class plgContentplg_nok_json extends JPlugin {
+class PlgContentNokjson extends CMSPlugin {
 	private $debug = array();
 	private $fieldExecute = 'client';
 	private $fieldvalues = array();
 
-	public function onContentPrepare($context, &$article, &$params, $limitstart) {
-		$app = JFactory::getApplication();
-	  	$globalParams = $this->params;
+	public function onContentPrepare($context, &$row, $params, $page = 0) {
 		$found = false;
-		$document = JFactory::getDocument();
 		foreach (array('json','jsonfield') as $field) {
-			$hits = preg_match_all('#{'.$field.'[\s]+([^}]*)}#s', $article->text, $matches);
+			$hits = preg_match_all('#{'.$field.'[\s]+([^}]*)}#s', $row->text, $matches);
 			if (!empty($hits)) {
 				for ($i=0; $i<$hits; $i++) {
 					$entryParamsText = $matches[1][$i];
-					$plgParams = $this->json_getParams($globalParams, $entryParamsText);
+					$plgParams = $this->json_getParams($entryParamsText);
 					if (!$found && ($this->executeOnClient($plgParams) === true)) {
 						$doc = JFactory::getDocument();
-						$doc->addScript('plugins/content/plg_nok_json/js/json.js');
+						$doc->addScript('plugins/content/nokjson/js/json.js');
 						$found = true;
 					}
 					switch ($field) {
 						case 'json':
 							$html = $this->json_createHtml($i, $plgParams);
-							$article->text = str_replace($matches[0][$i], $html, $article->text);
+							$row->text = str_replace($matches[0][$i], $html, $row->text);
 							break;
 						case 'jsonfield':
 							$html = $this->json_createFieldHtml($i, $plgParams);
-							$article->text = str_replace($matches[0][$i], $html, $article->text);
+							$row->text = str_replace($matches[0][$i], $html, $row->text);
 							break;
 						default:
 							break;
@@ -50,18 +47,14 @@ class plgContentplg_nok_json extends JPlugin {
 				}
 			}
 		}
-		if (strpos($article->text,'{jsondebug}') !== false) {
+		if (strpos($row->text,'{jsondebug}') !== false) {
 			$found = true;
-			$article->text = str_replace('{jsondebug}', '<h1>DEBUG-INFORMATION</h1>'.implode('<br/>',$this->debug), $article->text);
+			$row->text = str_replace('{jsondebug}', '<h1>DEBUG-INFORMATION</h1>'.implode('<br/>',$this->debug), $row->text);
 		}
 		return $found;
 	}
 
-	protected function json_getParams($globalParams, $entryParamsText) {
-		// Initialize with the global paramteres
-		//$entryParamsList['width'] = $globalParams->get('width');
-
-		// Overwrite with the local paramteres
+	protected function json_getParams($entryParamsText) {
 		$items = explode('] ', $entryParamsText);
 		foreach ($items as $item) {
 			if ($item != '') {
