@@ -12,6 +12,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 class PlgContentNokjson extends CMSPlugin {
@@ -28,6 +29,7 @@ class PlgContentNokjson extends CMSPlugin {
 					$entryParamsText = $matches[1][$i];
 					$plgParams = $this->json_getParams($entryParamsText);
 					if (!$found && ($this->executeOnClient($plgParams) === true)) {
+					    HTMLHelper::_('jquery.framework');
 						$doc = JFactory::getDocument();
 						$doc->addScript('plugins/content/nokjson/js/json.js');
 						$found = true;
